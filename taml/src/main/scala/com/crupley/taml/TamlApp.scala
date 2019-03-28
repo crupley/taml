@@ -10,15 +10,24 @@ import com.salesforce.op.stages.impl.evaluator.LogLoss.binaryLogLoss
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 
+/**
+ * TransmogrifAI Auto-ML App
+ *  - Uses TransmogrifAI's Auto-ML defaults to train a model from a csv file
+ *
+ *  @param args(0) - path to csv data file
+ *  @param args(1) - name of response variable column
+ */
 object TamlApp {
   def main(args: Array[String]): Unit = {
+    // Parse args
     val Array(path, responseField) = args
 
-    // initialize spark
+    // Initialize spark
     val conf = new SparkConf()
     conf.setAppName("taml")
     implicit val spark: SparkSession = SparkSession.builder.config(conf).getOrCreate()
 
+    // Load data
     val data = spark.read
       .option("header", "true")
       .option("inferSchema", "true")
@@ -42,9 +51,9 @@ object TamlApp {
     // Setting up a TransmogrifAI workflow and training the model
     val model = new OpWorkflow().setInputDataset(data).setResultFeatures(pred).train()
 
+    // Print and write results
     println("Model summary:\n" + model.summaryPretty())
 
-    // Write results to file
     val writer = new PrintWriter(new File(s"$responseField-${math.random}.json"))
     writer.write(model.summary())
     writer.close()
