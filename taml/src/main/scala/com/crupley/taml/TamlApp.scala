@@ -1,5 +1,7 @@
 package com.crupley.taml
 
+import java.io.{File, PrintWriter}
+
 import com.salesforce.op.OpWorkflow
 import com.salesforce.op.features.FeatureBuilder
 import com.salesforce.op.features.types._
@@ -42,5 +44,9 @@ object TamlApp {
 
     println("Model summary:\n" + model.summaryPretty())
 
+    // Write results to file
+    val writer = new PrintWriter(new File(s"$responseField-${math.random}.json"))
+    writer.write(model.summary())
+    writer.close()
   }
 }
