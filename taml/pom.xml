@@ -31,6 +31,7 @@
     <encoding>UTF-8</encoding>
     <scala.compat.version>2.11</scala.compat.version>
     <scala.version>2.11.12</scala.version>
+    <transmogrifai.version>0.5.1</transmogrifai.version>
   </properties>
 
   <dependencies>
@@ -38,6 +39,13 @@
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
+    </dependency>
+
+    <!-- TransmogrifAI -->
+    <dependency>
+      <groupId>com.salesforce.transmogrifai</groupId>
+      <artifactId>transmogrifai-core_${scala.compat.version}</artifactId>
+      <version>${transmogrifai.version}</version>
     </dependency>
 
     <!-- Test -->
