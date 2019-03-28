@@ -1,9 +1,10 @@
 package com.crupley.taml
 
 import com.salesforce.op.OpWorkflow
-import com.salesforce.op.features.{Feature, FeatureBuilder}
 import com.salesforce.op.features.types._
+import com.salesforce.op.features.{Feature, FeatureBuilder}
 import com.salesforce.op.stages.impl.classification.BinaryClassificationModelSelector
+import com.salesforce.op.stages.impl.evaluator.LogLoss.binaryLogLoss
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession
 
@@ -33,7 +34,9 @@ object TamlApp {
     val checkedFeatures = response.sanityCheck(featureVector, removeBadFeatures = true)
 
     // Automated model selection
-    val pred = BinaryClassificationModelSelector().setInput(response, checkedFeatures).getOutput()
+    val pred = BinaryClassificationModelSelector.withTrainValidationSplit(trainTestEvaluators = Seq(binaryLogLoss))
+      .setInput(response, checkedFeatures)
+      .getOutput()
 
     // Setting up a TransmogrifAI workflow and training the model
     val model = new OpWorkflow().setInputDataset(data).setResultFeatures(pred).train()
