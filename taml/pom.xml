@@ -32,6 +32,7 @@
     <scala.compat.version>2.11</scala.compat.version>
     <scala.version>2.11.12</scala.version>
     <transmogrifai.version>0.5.1</transmogrifai.version>
+    <spark.version>2.3.2</spark.version>
   </properties>
 
   <dependencies>
@@ -39,6 +40,36 @@
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>${scala.version}</version>
+    </dependency>
+
+    <!-- SPARK !-->
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-core_${scala.compat.version}</artifactId>
+      <version>${spark.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>slf4j-log4j12</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jackson-module-scala_${scala.compat.version}</artifactId>
+          <groupId>com.fasterxml.jackson.module</groupId>
+        </exclusion>
+      </exclusions>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-mllib_${scala.compat.version}</artifactId>
+      <version>${spark.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-sql_${scala.compat.version}</artifactId>
+      <version>${spark.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- TransmogrifAI -->
@@ -100,6 +131,23 @@
             <include>**/*Test.*</include>
             <include>**/*Suite.*</include>
           </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <shadedArtifactAttached>true</shadedArtifactAttached>
+          <shadedClassifierName>uber</shadedClassifierName>
         </configuration>
       </plugin>
     </plugins>
