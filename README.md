@@ -2,7 +2,7 @@
 
 > [TransmogrifAI](https://github.com/salesforce/TransmogrifAI)-based Auto-ML
 
-The goal of this project is to make a simple application that will automatically train a "good" predictive model given only a CSV dataset and the name of the column containing the response variable.
+The goal of this project is to make a simple application that will automatically train a "good" predictive model given only a CSV dataset and the name of the column containing the response variable. It basically adds some I/O to the main example in the [project readme](https://github.com/salesforce/TransmogrifAI/blob/master/README.md).
 
 ## Environment Requirements
 
