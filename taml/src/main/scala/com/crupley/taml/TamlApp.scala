@@ -54,7 +54,9 @@ object TamlApp {
     // Print and write results
     println("Model summary:\n" + model.summaryPretty())
 
-    val writer = new PrintWriter(new File(s"$responseField-${math.random}.json"))
+    val writer = new PrintWriter(new File(
+      s"${path.split("/").last}-${math.random.toString.split('.').last}.json"
+    ))
     writer.write(model.summary())
     writer.close()
   }
