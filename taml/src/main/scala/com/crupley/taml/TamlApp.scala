@@ -44,9 +44,8 @@ object TamlApp {
     val checkedFeatures = responseFeature.sanityCheck(featureVector, removeBadFeatures = true)
 
     // Automated model selection, values set to make baseline comparison
-    val pred = BinaryClassificationModelSelector.withTrainValidationSplit(
-      trainTestEvaluators = Seq(binaryLogLoss),
-      trainRatio = 0.70
+    val pred = BinaryClassificationModelSelector.withCrossValidation(
+      trainTestEvaluators = Seq(binaryLogLoss)
     )
       .setInput(responseFeature, checkedFeatures)
       .getOutput()
